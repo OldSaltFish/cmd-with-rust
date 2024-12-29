@@ -55,10 +55,11 @@ jobs:
           cp LICENSE README.md archive/
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
-            cp "../target/${{ matrix.target }}/release/sgf-render.exe" ./
+            cp "./target/${{ matrix.target }}/release/sgf-render.exe" ./
             7z a "${{ matrix.archive-name }}" LICENSE README.md sgf-render.exe
           else
-            cp "../target/${{ matrix.target }}/release/sgf-render" ./
+            echo "当前路径: $(pwd)"
+            cp "./target/${{ matrix.target }}/release/sgf-render" ./
             tar -czf "${{ matrix.archive-name }}" LICENSE README.md sgf-render
           fi
       - name: Upload archive
