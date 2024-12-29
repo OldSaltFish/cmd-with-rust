@@ -48,7 +48,7 @@ jobs:
 
       # - name: Strip binary (linux and macos)
       #   if: matrix.build == 'linux' || matrix.build == 'macos'
-      #   run: strip "createurl/target/${{ matrix.target }}/release/${{ matrix.cmdname }}"
+      #   run: strip "createurl/target/${{ matrix.target }}/release/$CMDNAME"
 
       - name: Build archive
         shell: bash
@@ -59,12 +59,12 @@ jobs:
           # cp LICENSE README.md archive/
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
-            cp "../target/${{ matrix.target }}/release/${{ matrix.cmdname }}.exe" ./
-            7z a "${{ matrix.archive-name }}" ${{ matrix.cmdname }}.exe
+            cp "../target/${{ matrix.target }}/release/$CMDNAME.exe" ./
+            7z a "${{ matrix.archive-name }}" $CMDNAME.exe
           else
             echo "当前路径: $(pwd)"
-            cp "../target/${{ matrix.target }}/release/${{ matrix.cmdname }}" ./
-            tar -czf "${{ matrix.archive-name }}" ${{ matrix.cmdname }}
+            cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
+            tar -czf "${{ matrix.archive-name }}" $CMDNAME
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v3
