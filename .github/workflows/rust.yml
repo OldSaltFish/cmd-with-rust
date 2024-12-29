@@ -39,13 +39,14 @@ jobs:
           target: ${{ matrix.target }}
 
       - name: Build binary
-        run: cd createurl && cargo build --verbose --release --target ${{ matrix.target }}
+        # run: cd createurl && cargo build --verbose --release --target ${{ matrix.target }}
+        run: cd createurl && cargo build --release --target ${{ matrix.target }}
         env:
           RUST_BACKTRACE: 1
 
       - name: Strip binary (linux and macos)
         if: matrix.build == 'linux' || matrix.build == 'macos'
-        run: strip "target/${{ matrix.target }}/release/sgf-render"
+        run: strip "createurl/target/${{ matrix.target }}/release/sgf-render"
 
       - name: Build archive
         shell: bash
