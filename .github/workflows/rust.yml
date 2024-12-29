@@ -60,11 +60,11 @@ jobs:
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
             cp "../target/${{ matrix.target }}/release/${{ matrix.cmdname }}.exe" ./
-            7z a "${{ matrix.archive-name }}" LICENSE README.md ${{ matrix.cmdname }}.exe
+            7z a "${{ matrix.archive-name }}" ${{ matrix.cmdname }}.exe
           else
             echo "当前路径: $(pwd)"
             cp "../target/${{ matrix.target }}/release/${{ matrix.cmdname }}" ./
-            tar -czf "${{ matrix.matrix.archive-name }}" LICENSE README.md ${{ matrix.cmdname }}
+            tar -czf "${{ matrix.archive-name }}" ${{ matrix.cmdname }}
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v3
