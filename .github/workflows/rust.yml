@@ -21,12 +21,12 @@ jobs:
             os: ubuntu-latest
             rust: nightly
             target: x86_64-unknown-linux-musl
-            archive-name: ${{matrix.cmdname}}-linux.tar.gz
+            os-post-name: linux.tar.gz
           - build: windows
             os: windows-2019
             rust: nightly-x86_64-msvc
             target: x86_64-pc-windows-msvc
-            archive-name: ${{matrix.cmdname}}-windows.7z
+            os-post-name: windows.7z
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -59,14 +59,14 @@ jobs:
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
             cp "../target/${{ matrix.target }}/release/${{ matrix.cmdname }}.exe" ./
-            7z a "${{ matrix.archive-name }}" LICENSE README.md ${{ matrix.cmdname }}.exe
+            7z a "${{ matrix.os-post-name }}" LICENSE README.md ${{ matrix.cmdname }}.exe
           else
             echo "当前路径: $(pwd)"
             cp "../target/${{ matrix.target }}/release/${{ matrix.cmdname }}" ./
-            tar -czf "${{ matrix.archive-name }}" LICENSE README.md ${{ matrix.cmdname }}
+            tar -czf "${{ matrix.matrix.os-post-name }}" LICENSE README.md ${{ matrix.cmdname }}
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.archive-name }}
-          path: ${{ matrix.cmdname }}/archive/${{ matrix.archive-name }}
+          name: ${{ matrix.matrix.os-post-name }}
+          path: ${{ matrix.cmdname }}/archive/${{ matrix.os-post-name }}
