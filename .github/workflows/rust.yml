@@ -69,5 +69,5 @@ jobs:
       - name: Upload archive
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.matrix.archive-name }}
-          path: $CMDNAME/archive/${{ matrix.archive-name }}
+          name: ${{ matrix.archive-name }}
+          path: createurl/archive/${{ matrix.archive-name }}
