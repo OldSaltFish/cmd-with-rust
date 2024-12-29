@@ -2,21 +2,79 @@ name: Rust
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 env:
   CARGO_TERM_COLOR: always
 
 jobs:
   build:
+    name: Rust
 
-    runs-on: ubuntu-latest
+    on:
+      push:
+        branches: ["main"]
+      pull_request:
+        branches: ["main"]
 
-    steps:
-    - uses: actions/checkout@v4
-    - name: Build
-      run: cd createurl && cargo build --release --verbose
-    - name: Run tests
-      run: cargo test --verbose
+    env:
+      CARGO_TERM_COLOR: always
+
+    jobs:
+      build:
+        strategy:
+          matrix:
+            build: [linux, windows]
+            include:
+              - build: linux
+                os: ubuntu-latest
+                rust: nightly
+                target: x86_64-unknown-linux-musl
+                archive-name: sgf-render-linux.tar.gz
+              - build: windows
+                os: windows-2019
+                rust: nightly-x86_64-msvc
+                target: x86_64-pc-windows-msvc
+                archive-name: sgf-render-windows.7z
+        runs-on: ${{ matrix.os }}
+
+        steps:
+          - name: Checkout
+            uses: actions/checkout@v4
+          - name: Install Rust
+            uses: actions-rs/toolchain@v1
+            with:
+              toolchain: ${{ matrix.rust }}
+              profile: minimal
+              override: true
+              target: ${{ matrix.target }}
+
+          - name: Build binary
+            run: cd createurl && cargo build --verbose --release --target ${{ matrix.target }}
+            env:
+              RUST_BACKTRACE: 1
+
+          - name: Strip binary (linux and macos)
+            if: matrix.build == 'linux' || matrix.build == 'macos'
+            run: strip "target/${{ matrix.target }}/release/sgf-render"
+
+          - name: Build archive
+            shell: bash
+            run: |
+              mkdir archive
+              cp LICENSE README.md archive/
+              cd archive
+              if [ "${{ matrix.build }}" = "windows" ]; then
+                cp "../target/${{ matrix.target }}/release/sgf-render.exe" ./
+                7z a "${{ matrix.archive-name }}" LICENSE README.md sgf-render.exe
+              else
+                cp "../target/${{ matrix.target }}/release/sgf-render" ./
+                tar -czf "${{ matrix.archive-name }}" LICENSE README.md sgf-render
+              fi
+          - name: Upload archive
+            uses: actions/upload-artifact@v1
+            with:
+              name: ${{ matrix.archive-name }}
+              path: archive/${{ matrix.archive-name }}
