@@ -53,7 +53,7 @@ jobs:
         run: |
           cd createurl
           mkdir archive
-          cp LICENSE README.md archive/
+          # cp LICENSE README.md archive/
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
             cp "./target/${{ matrix.target }}/release/sgf-render.exe" ./
