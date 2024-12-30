@@ -59,10 +59,8 @@ jobs:
             cp "../target/${{ matrix.target }}/release/$CMDNAME.exe" ./
             7z a ${{ matrix.archive-name }} $CMDNAME.exe
           else
-            echo "当前路径: $(pwd)"
+            echo "当前文件: $(ls)"
             cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
-            tree
-            echo $CMDNAME
             tar -czf ${{ matrix.archive-name }} ./*
           fi
       - name: Upload archive
