@@ -58,7 +58,7 @@ jobs:
           if [ "${{ matrix.build }}" = "windows" ]; then
             echo "$CMDNAME"
             cp "../target/${{ matrix.target }}/release/$CMDNAME.exe" ./
-            7z a ${{ matrix.archive-name }} "$CMDNAME.exe"
+            7z a ${{ matrix.archive-name }} ./*
           else
             cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
             echo "matrix环境变量："
