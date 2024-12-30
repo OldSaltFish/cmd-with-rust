@@ -62,7 +62,7 @@ jobs:
             echo "当前路径: $(pwd)"
             cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
             tree
-            env
+            echo $CMDNAME
             tar -czf "${{ matrix.archive-name }}" $CMDNAME
           fi
       - name: Upload archive
