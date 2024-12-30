@@ -56,13 +56,13 @@ jobs:
           # cp LICENSE README.md archive/
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
-            cp "../target/${{ matrix.target }}/release/${{env.CMDNAME}}.exe" ./
-            7z a "${{ matrix.archive-name }}" ${{env.CMDNAME}}.exe
+            cp "../target/${{ matrix.target }}/release/$CMDNAME.exe" ./
+            7z a "${{ matrix.archive-name }}" $CMDNAME.exe
           else
             echo "当前路径: $(pwd)"
-            cp "../target/${{ matrix.target }}/release/${{env.CMDNAME}}" ./
+            cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
             tree
-            tar -czf "${{ matrix.archive-name }}" ${{env.CMDNAME}}
+            tar -czf "${{ matrix.archive-name }}" $CMDNAME
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v4
