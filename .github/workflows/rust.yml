@@ -56,9 +56,10 @@ jobs:
           # cp LICENSE README.md archive/
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
-            echo %PATH%
+            type tar
+            echo $PATH
             pwsh
-            echo $env:PATH
+            echo $PATH
             cp "../target/${{ matrix.target }}/release/${env:CMDNAME}.exe" ./
             7z a ${{ matrix.archive-name }} ${env:CMDNAME}.exe
           else
