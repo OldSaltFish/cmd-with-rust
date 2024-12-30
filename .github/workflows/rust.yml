@@ -8,12 +8,11 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-
+  WINDOWS_ARCHIVE: createurl-windows.7z
+  LINUX_ARCHIVE: createurl-linux.tar.gz
 jobs:
   build:
     name: Rust
-    env:
-      CMDNAME: createurl
     strategy:
       matrix:
         build: [linux, windows]
@@ -22,12 +21,12 @@ jobs:
             os: ubuntu-latest
             rust: nightly
             target: x86_64-unknown-linux-musl
-            archive-name: createurl-linux.tar.gz
+            archive-name: ${{env.LINUX_ARCHIVE}}
           - build: windows
             os: windows-latest
             rust: nightly-x86_64-msvc
             target: x86_64-pc-windows-msvc
-            archive-name: createurl-windows.7z
+            archive-name: ${{env.WINDOWS_ARCHIVE}}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
@@ -68,8 +67,7 @@ jobs:
       - name: Upload archive
         uses: actions/upload-artifact@v4
         with:
-          # name: ${{ matrix.archive-name }}
-          name: built-packages
+          name: ${{ matrix.archive-name }}
           path: createurl/archive/${{ matrix.archive-name }}
 
   release:
@@ -80,8 +78,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: |
-            built-packages
+          merge-multiple: true
       # - name: Generate Changelog
       #   run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.txt
       - name: where
