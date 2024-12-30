@@ -57,13 +57,13 @@ jobs:
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
             cp "../target/${{ matrix.target }}/release/$CMDNAME.exe" ./
-            7z a "${{ matrix.archive-name }}" $CMDNAME.exe
+            7z a ${{ matrix.archive-name }} $CMDNAME.exe
           else
             echo "当前路径: $(pwd)"
             cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
             tree
             echo $CMDNAME
-            tar -czf "${{ matrix.archive-name }}" $CMDNAME
+            tar -czf ${{ matrix.archive-name }} $CMDNAME
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v4
