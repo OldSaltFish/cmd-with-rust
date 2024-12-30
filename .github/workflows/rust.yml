@@ -57,6 +57,7 @@ jobs:
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
             cp "../target/${{ matrix.target }}/release/${{env.CMDNAME}}.exe" ./
+            tree
             7z a "${{ matrix.archive-name }}" ${{env.CMDNAME}}.exe
           else
             echo "当前路径: $(pwd)"
