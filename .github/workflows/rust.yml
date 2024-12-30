@@ -61,6 +61,7 @@ jobs:
           else
             cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
             echo "当前文件: $(ls)"
+            echo ${{ matrix.archive-name }}
             tar -czf ${{ matrix.archive-name }} ./*
           fi
       - name: Upload archive
