@@ -56,7 +56,7 @@ jobs:
           # cp LICENSE README.md archive/
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
-            echo $CMDNAME
+            echo "$CMDNAME"
             cp "../target/${{ matrix.target }}/release/$CMDNAME.exe" ./
             7z a ${{ matrix.archive-name }} $CMDNAME.exe
           else
