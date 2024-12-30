@@ -60,7 +60,7 @@ jobs:
             7z a ${{ matrix.archive-name }} $CMDNAME.exe
           else
             cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
-            echo "matrix环境变量"
+            echo "matrix环境变量："
             echo ${{ matrix.archive-name }}
             echo "env环境 ${{vars.LINUX_ARCHIVE}}"
             # tar -czf ${{ matrix.archive-name }} ./*
