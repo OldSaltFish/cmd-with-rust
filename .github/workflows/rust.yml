@@ -8,8 +8,7 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  WINDOWS_ARCHIVE: createurl-windows.7z
-  LINUX_ARCHIVE: createurl-linux.tar.gz
+
 jobs:
   build:
     name: Rust
@@ -21,12 +20,12 @@ jobs:
             os: ubuntu-latest
             rust: nightly
             target: x86_64-unknown-linux-musl
-            archive-name: ${{env.LINUX_ARCHIVE}}
+            archive-name: ${{vars.LINUX_ARCHIVE}}
           - build: windows
             os: windows-latest
             rust: nightly-x86_64-msvc
             target: x86_64-pc-windows-msvc
-            archive-name: ${{env.WINDOWS_ARCHIVE}}
+            archive-name: ${{vars.WINDOWS_ARCHIVE}}
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout
