@@ -63,7 +63,7 @@ jobs:
             cp "../target/${{ matrix.target }}/release/$CMDNAME" ./
             tree
             echo $CMDNAME
-            tar -czf ${{ matrix.archive-name }} createurl
+            tar -czf ${{ matrix.archive-name }} ./*
           fi
       - name: Upload archive
         uses: actions/upload-artifact@v4
