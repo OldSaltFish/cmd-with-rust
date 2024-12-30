@@ -24,7 +24,7 @@ jobs:
             target: x86_64-unknown-linux-musl
             archive-name: createurl-linux.tar.gz
           - build: windows
-            os: windows-2019
+            os: windows-2023
             rust: nightly-x86_64-msvc
             target: x86_64-pc-windows-msvc
             archive-name: createurl-windows.7z
@@ -55,7 +55,6 @@ jobs:
         run: |
           cd createurl
           mkdir archive
-          tree
           # cp LICENSE README.md archive/
           cd archive
           if [ "${{ matrix.build }}" = "windows" ]; then
@@ -67,7 +66,34 @@ jobs:
             tar -czf "${{ matrix.archive-name }}" $CMDNAME
           fi
       - name: Upload archive
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.archive-name }}
           path: createurl/archive/${{ matrix.archive-name }}
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: |
+            createurl-linux.tar.gz
+      # - name: Generate Changelog
+      #   run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.txt
+      - name: where
+        run: echo "当前路径:$(pwd)" && tree
+      # - name: Release
+      #   uses: softprops/action-gh-release@v2
+      #   if: startsWith(github.ref, 'refs/tags/')
+      #   with:
+      #     body_path: ${{ github.workspace }}-CHANGELOG.txt
+      #     repository: my_gh_org/my_gh_repo
+      #     # note you'll typically need to create a personal access token
+      #     # with permissions to create releases in the other repo
+      #     # token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+      #     files: |
+      #       Release.txt
+      #       LICENSE
