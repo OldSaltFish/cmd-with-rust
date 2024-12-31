@@ -30,13 +30,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: ${{ matrix.rust }}
-          profile: minimal
-          override: true
-          target: ${{ matrix.target }}
+      # - name: Install Rust
+      #   uses: actions-rs/toolchain@v1
+      #   with:
+      #     toolchain: ${{ matrix.rust }}
+      #     profile: minimal
+      #     override: true
+      #     target: ${{ matrix.target }}
 
       - name: Build binary
         # run: cd createurl && cargo build --verbose --release --target ${{ matrix.target }}
@@ -84,15 +84,14 @@ jobs:
       #   run: echo "# Good things have arrived" > ${{ github.workspace }}-CHANGELOG.txt
       - name: where
         run: echo "当前路径:$(pwd)" && tree
-      # - name: Release
-      #   uses: softprops/action-gh-release@v2
-      #   if: startsWith(github.ref, 'refs/tags/')
-      #   with:
-      #     body_path: ${{ github.workspace }}-CHANGELOG.txt
-      #     repository: my_gh_org/my_gh_repo
-      #     # note you'll typically need to create a personal access token
-      #     # with permissions to create releases in the other repo
-      #     # token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-      #     files: |
-      #       Release.txt
-      #       LICENSE
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          body_path: ${{ github.workspace }}-CHANGELOG.txt
+          repository: my_gh_org/my_gh_repo
+          # note you'll typically need to create a personal access token
+          # with permissions to create releases in the other repo
+          # token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: |
+            ./*
