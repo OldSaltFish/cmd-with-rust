@@ -96,4 +96,5 @@ jobs:
           # with permissions to create releases in the other repo
           token: ${{ secrets.TOKEN }}
           files: |
-            createurl-linux.tar.gz
+            ./*
+            # createurl-linux.tar.gz
