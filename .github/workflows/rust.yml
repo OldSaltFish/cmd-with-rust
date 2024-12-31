@@ -91,9 +91,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/')
         with:
-          repository: my_gh_org/my_gh_repo
           # note you'll typically need to create a personal access token
           # with permissions to create releases in the other repo
           # token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           files: |
-            ./*
+            createurl-linux.tar.gz

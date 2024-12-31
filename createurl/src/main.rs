@@ -8,18 +8,28 @@ struct Cli {
 }
 fn main() -> io::Result<()> {
     let args = Cli::from_args();
-    let p1 = r#"<!DOCTYPE html>
+//     let p1 = r#"<!DOCTYPE html>
+// <html lang="en">
+// <head>
+// <meta charset="UTF-8">
+// <meta http-equiv="refresh" content="0;url="#;
+//     let p3 = r#"">
+// <title>Redirecting</title>
+// </head>
+// <body>
+// </body>
+// </html>"#;
+//     let html = format!("{}{}{}",p1,&args.url,p3);
+    let html = format!(r#"<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url="#;
-    let p3 = r#"">
+<meta http-equiv="refresh" content="0;url={url}">
 <title>Redirecting</title>
 </head>
 <body>
 </body>
-</html>"#;
-    let html = format!("{}{}{}",p1,&args.url,p3);
+</html>"#,url=&args.url);
     let path = format!("{}.html",&args.filename);
     let mut file = std::fs::File::create(path)?;
     // 将字符串写入文件
