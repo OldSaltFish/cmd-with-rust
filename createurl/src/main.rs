@@ -12,7 +12,7 @@ fn main() -> io::Result<()> {
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url={url}">
+<meta http-equiv="refresh" content="0;url=http://{url}">
 <title>Redirecting</title>
 </head>
 <body>
