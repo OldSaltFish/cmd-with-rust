@@ -8,23 +8,11 @@ struct Cli {
 }
 fn main() -> io::Result<()> {
     let args = Cli::from_args();
-//     let p1 = r#"<!DOCTYPE html>
-// <html lang="en">
-// <head>
-// <meta charset="UTF-8">
-// <meta http-equiv="refresh" content="0;url="#;
-//     let p3 = r#"">
-// <title>Redirecting</title>
-// </head>
-// <body>
-// </body>
-// </html>"#;
-//     let html = format!("{}{}{}",p1,&args.url,p3);
     let html = format!(r#"<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="0;url={url}">
+<meta http-equiv="refresh" content="0;url=http://{url}">
 <title>Redirecting</title>
 </head>
 <body>
